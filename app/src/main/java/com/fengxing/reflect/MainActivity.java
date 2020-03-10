@@ -14,7 +14,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
-    public static String CLASSNAME = "com.fengxing.fs.Person";
+    public static String CLASSNAME = "com.fengxing.reflect.Person";
     public static String FIELDDEFAULT = "value";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
         getGenericType(CLASSNAME);
     }
 
+    /**
+     * 打印构造方法
+     * @param className
+     */
     public static void printConstructor(String className){
         try {
             Class<?> aClass = Class.forName(className);
