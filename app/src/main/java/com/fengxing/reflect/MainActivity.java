@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     public static String CLASSNAME = "com.fengxing.reflect.Person";
+    public static String ANNOTATION_CLASSNAME = "com.fengxing.reflect.UseCustomAnnotation";
     public static String FIELDDEFAULT = "value";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
         getAssignMethod(CLASSNAME,"setCountry",String.class);
         getArrayClass();
         getGenericType(CLASSNAME);
+        parseTypeAnnotation(ANNOTATION_CLASSNAME);
+        parseMethodAnnotation();
+        parseConstructAnnotation();
     }
 
     /**
@@ -196,6 +201,57 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch (ClassNotFoundException | NoSuchMethodException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 打印UseCustomAnnotation类中使用到的类注解，该方法只打印了Type(类)类型的注解
+     */
+    public static void parseTypeAnnotation(String className){
+        try {
+            Class<?> aClass = Class.forName(className);
+            Annotation[] annotations = aClass.getAnnotations();
+            for (Annotation annotation : annotations) {
+                AboutAnnotation.CustomAnnotationInfo  custom = (AboutAnnotation.CustomAnnotationInfo) annotation;
+                System.out.println("id= \"" + custom.id() + "\"; name= \""
+                        + custom.name() + "\"; gid = " + custom.gid());
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 打印UseCustomAnnotation类中使用到的方法注解，该方法只打印了Method(类)类型的注解
+     */
+    public static void parseMethodAnnotation(){
+        Method[] declaredMethods = UseCustomAnnotation.class.getDeclaredMethods();
+        for (Method declaredMethod : declaredMethods) {
+            //判断方法中是否有指定类型的注解
+            boolean hasAnnotation = declaredMethod.isAnnotationPresent(AboutAnnotation.CustomAnnotationInfo.class);
+            if (hasAnnotation){
+                AboutAnnotation.CustomAnnotationInfo annotation = declaredMethod.getAnnotation(AboutAnnotation.CustomAnnotationInfo.class);
+                System.out.println("method = " + declaredMethod.getName() + " ; id = "
+                        + annotation.id() + " ; name = "
+                        + annotation.name() + "; gid= " + annotation.gid());
+            }
+        }
+    }
+
+    /**
+     * 打印UseCustomAnnotation类中使用到的构造方法注解，CONSTRUCTOR(构造方法)类型的注解
+     */
+    public static void parseConstructAnnotation(){
+        Constructor<?>[] constructors = UseCustomAnnotation.class.getConstructors();
+        for (Constructor<?> constructor : constructors) {
+            boolean annotationPresent = constructor.isAnnotationPresent(AboutAnnotation.CustomAnnotationInfo.class);
+            if (annotationPresent){
+                AboutAnnotation.CustomAnnotationInfo custom = constructor.getAnnotation(AboutAnnotation.CustomAnnotationInfo.class);
+                System.out.println("constructor = " + constructor.getName()
+                        + " ; id = " + custom.id() + " ; name = "
+                        + custom.name() + "; gid= " + custom.gid());
+            }
         }
     }
 }
