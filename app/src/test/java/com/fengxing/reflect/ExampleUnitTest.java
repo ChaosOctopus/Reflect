@@ -1,4 +1,4 @@
-package com.fengxing.fs;
+package com.fengxing.reflect;
 
 import org.junit.Test;
 
