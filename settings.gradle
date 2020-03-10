@@ -1,2 +1,3 @@
 rootProject.name='Fs'
 include ':app'
+include ':seriableAnnotation'
