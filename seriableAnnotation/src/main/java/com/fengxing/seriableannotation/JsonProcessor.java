@@ -99,7 +99,7 @@ public class JsonProcessor extends AbstractProcessor {
                 for (int i= 0;i<fields.size();i++){
                     VariableElement variableElement = fields.get(i);
                     fileWriter.append("   ").append(variableElement.getSimpleName()).append(":")
-                            .append("\""+variableElement.asType().toString()+"\"");
+                            .append("\"").append(variableElement.asType().toString()).append("\"");
                     if (i < fields.size() - 1){
                         fileWriter.append(",");
                         fileWriter.append("\n");
