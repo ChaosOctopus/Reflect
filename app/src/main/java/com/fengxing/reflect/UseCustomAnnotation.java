@@ -34,5 +34,4 @@ public class UseCustomAnnotation {
         Map<String,String>  m = new HashMap<String, String>(0);
     }
 
-
 }

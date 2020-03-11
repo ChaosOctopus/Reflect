@@ -88,7 +88,7 @@ public class JsonProcessor extends AbstractProcessor {
     }
 
     private void generateCodes(Map<String, List<VariableElement>> map) {
-        File dir = new File("/Users/zhaoyuanchao/Desktop/Web/json");
+        File dir = new File("/Users/zhaoyuanchao/Desktop/Web/Json");
         if (!dir.exists()) dir.mkdirs();
         for (String key : map.keySet()) {
             File file = new File(dir,key.replaceAll("\\.","_")+".txt");
